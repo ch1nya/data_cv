@@ -1,6 +1,6 @@
 # data-cv
 
-An academic profile and research page for Ivan Chiniakin, PhD applicant for the 2027 intake. Built with React, TypeScript, Vite, Tailwind CSS v4, and shadcn/ui-style components with Radix primitives.
+An academic profile and research page for Ivan Chiniakin, PhD applicant for the 2027 intake (data science for ageing populations and health-tech innovation). Built with React, TypeScript, Vite, Tailwind CSS v4, and shadcn/ui-style components with Radix primitives.
 
 ## Development
 

@@ -11,7 +11,9 @@ import { Separator } from '@/components/ui/separator';
 import { content } from './content';
 
 const navLinks = [
-  { href: '#research', label: 'Research' },
+  { href: '#research', label: 'Research focus' },
+  { href: '#work', label: 'Selected work' },
+  { href: '#skills', label: 'Skills' },
   { href: '#background', label: 'Background' },
   { href: '#faq', label: 'FAQ' },
   { href: '#contact', label: 'Contact' },
@@ -51,7 +53,7 @@ function ThemeToggle() {
 
 function Header() {
   return <header className="site-header"><div className="container header-inner">
-    <a className="wordmark" href="#main">Ivan Chiniakin</a>
+    <a className="wordmark" href="#main">~/ch1nya/data_cv<span className="wordmark-cursor" aria-hidden="true">_</span></a>
     <nav className="desktop-nav" aria-label="Main navigation">{navLinks.map((link) => <a key={link.href} href={link.href}>{link.label}</a>)}</nav>
     <div className="header-actions"><ThemeToggle />
       <Dialog.Root><Dialog.Trigger asChild><Button variant="ghost" className="icon-button mobile-menu-trigger" aria-label="Open menu"><Menu size={19} /></Button></Dialog.Trigger>
@@ -79,16 +81,17 @@ function Hero() {
       <p className="hero-subtitle">{content.subtitle}</p>
       {content.portrait && <img className="hero-portrait" src={`${import.meta.env.BASE_URL}${content.portrait}`} alt="Ivan Chiniakin" width="136" height="136" />}
     </div>
+    {content.stats.length > 0 && <div className="hero-stats">{content.stats.map((stat) => <span className="stat-chip" key={stat.label}><strong>{stat.number}</strong>{stat.label}</span>)}</div>}
     <EmailActions />
   </section>;
 }
 
 function SectionHeading({ number, title }: { number: string; title: string }) {
-  return <div className="section-heading"><span className="section-number">{number}</span><h2>{title}</h2></div>;
+  return <div className="section-heading"><span className="section-number">{number} / {title.toLowerCase()}</span><h2>{title}</h2></div>;
 }
 
 function Research() {
-  return <section id="research" className="section content-column"><SectionHeading number="01" title="Research" />
+  return <section id="research" className="section content-column"><SectionHeading number="01" title="Research focus" />
     <p className="lead">{content.researchIntro}</p>
     <ol className="research-list">{content.researchPoints.map((point, index) => <li key={point.name}>
       <span className="research-index">{String(index + 1).padStart(2, '0')}</span><div><h3>{point.name.replace(/\.$/, '')}</h3><p>{point.description}</p></div>
@@ -98,23 +101,43 @@ function Research() {
   </section>;
 }
 
-function Figures() {
-  return <section className="section figures-section" aria-label="At a glance"><div className="container"><div className="figures-grid">
-    {content.stats.map((stat, index) => <Card className="figure-card" key={stat.label}><span className="figure-caption">Fig. {index + 1}</span><strong>{stat.number}</strong><p>{stat.label}</p></Card>)}
-  </div></div></section>;
+function SelectedWork() {
+  return <section id="work" className="section content-column"><SectionHeading number="02" title="Selected work" />
+    <Card className="work-card">
+      <p className="card-kicker">THESIS</p>
+      <h3>{content.thesisTitle}</h3>
+      <p className="work-meta">{content.thesisMeta}</p>
+      <p>{content.priorResearch}</p>
+      <p className="background-note">{content.thesisLimitations}</p>
+    </Card>
+    <Card className="work-card">
+      <p className="card-kicker">ENGINEERING AND PROJECT WORK</p>
+      <h3>Software delivery and project management</h3>
+      <p>{content.engineeringSummary}</p>
+      <ul>{content.engineeringPoints.map((point) => <li key={point}>{point}</li>)}</ul>
+    </Card>
+  </section>;
+}
+
+function Skills() {
+  return <section id="skills" className="section content-column"><SectionHeading number="03" title="Skills" />
+    <div className="skills-groups">{content.skills.map((group) => <div className="skills-group" key={group.group}>
+      <h3>{group.group}</h3>
+      <div className="chip-row">{group.items.map((item) => <span className="chip" key={item}>{item}</span>)}</div>
+    </div>)}</div>
+  </section>;
 }
 
 function Background() {
-  return <section id="background" className="section content-column"><SectionHeading number="02" title="Background" />
+  return <section id="background" className="section content-column"><SectionHeading number="04" title="Education and experience" />
     <div className="background-group"><h3>Education</h3><ul className="record-list">{content.education.filter((item) => item.degree).map((edu, index) => <li key={edu.degree} className="record-item"><div className="record-row"><div><strong>{edu.degree}</strong>{edu.university && <span>{edu.university}</span>}</div>{edu.year && <time>{edu.year}</time>}</div>{index < content.education.length - 1 && <Separator />}</li>)}</ul></div>
     <div className="background-group"><h3>Industry</h3><ul className="record-list">{content.industry.map((item, index) => <li key={item.role} className="record-item"><div className="record-row"><div><strong>{item.role.trim()}{item.years.trim() ? `, ${item.years.trim()}` : ''}</strong>{item.stack && <span>{item.stack}</span>}</div>{item.employer && <span className="record-meta">{item.employer}</span>}</div>{index < content.industry.length - 1 && <Separator />}</li>)}</ul></div>
-    <div className="background-group prior-research"><h3>Prior research</h3><p>{content.priorResearch}</p></div>
     <p className="background-note">{content.backgroundLine}</p>
   </section>;
 }
 
 function Faq() {
-  return <section id="faq" className="section content-column"><SectionHeading number="03" title="Frequently asked questions" />
+  return <section id="faq" className="section content-column"><SectionHeading number="05" title="Frequently asked questions" />
     <Accordion.Root className="accordion" type="single" collapsible defaultValue="item-0">{content.faqs.map((faq, index) => <Accordion.Item value={`item-${index}`} key={faq.question} className="accordion-item">
       <Accordion.Header><Accordion.Trigger className="accordion-trigger">{faq.question}<ChevronDown size={17} className="accordion-chevron" /></Accordion.Trigger></Accordion.Header>
       <Accordion.Content className="accordion-content"><p>{faq.answer}</p></Accordion.Content>
@@ -123,18 +146,23 @@ function Faq() {
 }
 
 function Contact() {
-  return <section id="contact" className="section contact-section"><div className="container contact-inner"><div><SectionHeading number="04" title="Contact" /><p className="contact-copy">For questions about the project, supervision, or possible fit, please get in touch.</p></div>
+  return <section id="contact" className="section contact-section"><div className="container contact-inner"><div><SectionHeading number="06" title="Contact" /><p className="contact-copy">For questions about supervision, fit, or application materials, please get in touch.</p>
+    {content.location && <p className="contact-copy">{content.location}</p>}
+    {content.availability && <p className="contact-copy">{content.availability}</p>}
+    {content.fundingNote && <p className="contact-copy">{content.fundingNote}</p>}
+  </div>
     <Card className="contact-card"><a className="email-address" href={`mailto:${content.email}`}>{content.email}</a><Button onClick={copyEmail}><Copy size={15} /> Copy email</Button></Card>
     <div className="social-links">{content.social.map((social) => <a key={social.name} href={social.url} target="_blank" rel="noreferrer">{social.name}<span aria-hidden="true">↗</span></a>)}</div>
   </div></section>;
 }
 
 function Footer() {
-  return <footer className="site-footer"><div className="container footer-inner"><span>© {new Date().getFullYear()} Ivan Chiniakin</span><span>Last updated: 2 November 2026</span><a href="#main">Back to top ↑</a></div></footer>;
+  return <footer className="site-footer"><div className="container footer-inner"><span>© {new Date().getFullYear()} Ivan Chiniakin</span><span>Last updated: 7 November 2026</span><a href="#main">Back to top ↑</a></div></footer>;
 }
 
 export default function App() {
   return <Tooltip.Provider><div className="page"><Header /><main id="main" className="container">
-    <Hero /><Research /><Figures /><Background /><Faq />
+    <Hero /><Research /><SelectedWork /><Skills /><Background /><Faq />
   </main><Contact /><Footer /><Toaster position="bottom-right" richColors closeButton /></div></Tooltip.Provider>;
 }
+CSS
