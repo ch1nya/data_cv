@@ -87,7 +87,7 @@ function Hero() {
 }
 
 function SectionHeading({ number, title }: { number: string; title: string }) {
-  return <div className="section-heading"><span className="section-number">{number} / {title.toLowerCase()}</span><h2>{title}</h2></div>;
+  return <div className="section-heading"><span className="section-number">{number}.</span><h2>{title}</h2></div>;
 }
 
 function Research() {
