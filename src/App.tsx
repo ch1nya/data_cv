@@ -12,6 +12,7 @@ import { content } from './content';
 
 const navLinks = [
   { href: '#research', label: 'Research focus' },
+  { href: '#proposal', label: 'Proposal' },
   { href: '#work', label: 'Selected work' },
   { href: '#skills', label: 'Skills' },
   { href: '#background', label: 'Background' },
@@ -101,8 +102,42 @@ function Research() {
   </section>;
 }
 
+function ResearchProposal() {
+  const p = content.researchProposal;
+  return <section id="proposal" className="section content-column"><SectionHeading number="02" title="Research proposal" />
+    <Badge>{p.status}</Badge>
+    <br/>
+    <br/>
+    <h3>{p.title}</h3>
+    <p className="lead">{p.summary}</p>
+    <Card className="work-card">
+      <p className="card-kicker">WHERE THE GAP IS</p>
+      <p>{p.gap}</p>
+    </Card>
+    {p.studies.map((study) => <Card className="work-card" key={study.label}>
+      <p className="card-kicker">{study.label.toUpperCase()}</p>
+      <h3>{study.question}</h3>
+      <p><strong>Design.</strong> {study.design}</p>
+      <p><strong>Measures.</strong> {study.measures}</p>
+    </Card>)}
+    <Card className="work-card">
+      <p className="card-kicker">EXPECTED CONTRIBUTION</p>
+      <ul>{p.contribution.map((item) => <li key={item}>{item}</li>)}</ul>
+    </Card>
+    <Card className="work-card">
+      <p className="card-kicker">METHODS I PLAN TO LEARN</p>
+      <div className="chip-row">{p.methodsToLearn.map((item) => <span className="chip" key={item}>{item}</span>)}</div>
+    </Card>
+    <Card className="work-card">
+      <p className="card-kicker">OPEN TO ADJACENT TOPICS</p>
+      <p>{p.flexibility}</p>
+    </Card>
+    <p className="background-note">{p.practicalNotes}</p>
+  </section>;
+}
+
 function SelectedWork() {
-  return <section id="work" className="section content-column"><SectionHeading number="02" title="Selected work" />
+  return <section id="work" className="section content-column"><SectionHeading number="03" title="Selected work" />
     <Card className="work-card">
       <p className="card-kicker">THESIS</p>
       <h3>{content.thesisTitle}</h3>
@@ -120,7 +155,7 @@ function SelectedWork() {
 }
 
 function Skills() {
-  return <section id="skills" className="section content-column"><SectionHeading number="03" title="Skills" />
+  return <section id="skills" className="section content-column"><SectionHeading number="04" title="Skills" />
     <div className="skills-groups">{content.skills.map((group) => <div className="skills-group" key={group.group}>
       <h3>{group.group}</h3>
       <div className="chip-row">{group.items.map((item) => <span className="chip" key={item}>{item}</span>)}</div>
@@ -129,7 +164,7 @@ function Skills() {
 }
 
 function Background() {
-  return <section id="background" className="section content-column"><SectionHeading number="04" title="Education and experience" />
+  return <section id="background" className="section content-column"><SectionHeading number="05" title="Education and experience" />
     <div className="background-group"><h3>Education</h3><ul className="record-list">{content.education.filter((item) => item.degree).map((edu, index) => <li key={edu.degree} className="record-item"><div className="record-row"><div><strong>{edu.degree}</strong>{edu.university && <span>{edu.university}</span>}</div>{edu.year && <time>{edu.year}</time>}</div>{index < content.education.length - 1 && <Separator />}</li>)}</ul></div>
     <div className="background-group"><h3>Industry</h3><ul className="record-list">{content.industry.map((item, index) => <li key={item.role} className="record-item"><div className="record-row"><div><strong>{item.role.trim()}{item.years.trim() ? `, ${item.years.trim()}` : ''}</strong>{item.stack && <span>{item.stack}</span>}</div>{item.employer && <span className="record-meta">{item.employer}</span>}</div>{index < content.industry.length - 1 && <Separator />}</li>)}</ul></div>
     <p className="background-note">{content.backgroundLine}</p>
@@ -137,7 +172,7 @@ function Background() {
 }
 
 function Faq() {
-  return <section id="faq" className="section content-column"><SectionHeading number="05" title="Frequently asked questions" />
+  return <section id="faq" className="section content-column"><SectionHeading number="06" title="Frequently asked questions" />
     <Accordion.Root className="accordion" type="single" collapsible defaultValue="item-0">{content.faqs.map((faq, index) => <Accordion.Item value={`item-${index}`} key={faq.question} className="accordion-item">
       <Accordion.Header><Accordion.Trigger className="accordion-trigger">{faq.question}<ChevronDown size={17} className="accordion-chevron" /></Accordion.Trigger></Accordion.Header>
       <Accordion.Content className="accordion-content"><p>{faq.answer}</p></Accordion.Content>
@@ -146,7 +181,7 @@ function Faq() {
 }
 
 function Contact() {
-  return <section id="contact" className="section contact-section"><div className="container contact-inner"><div><SectionHeading number="06" title="Contact" /><p className="contact-copy">For questions about supervision, fit, or application materials, please get in touch.</p>
+  return <section id="contact" className="section contact-section"><div className="container contact-inner"><div><SectionHeading number="07" title="Contact" /><p className="contact-copy">For questions about supervision, fit, or application materials, please get in touch.</p>
     {content.location && <p className="contact-copy">{content.location}</p>}
     {content.availability && <p className="contact-copy">{content.availability}</p>}
     {content.fundingNote && <p className="contact-copy">{content.fundingNote}</p>}
@@ -162,7 +197,6 @@ function Footer() {
 
 export default function App() {
   return <Tooltip.Provider><div className="page"><Header /><main id="main" className="container">
-    <Hero /><Research /><SelectedWork /><Skills /><Background /><Faq />
+    <Hero /><Research /><ResearchProposal /><SelectedWork /><Skills /><Background /><Faq />
   </main><Contact /><Footer /><Toaster position="bottom-right" richColors closeButton /></div></Tooltip.Provider>;
 }
-CSS
