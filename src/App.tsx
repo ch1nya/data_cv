@@ -91,7 +91,7 @@ function EmailActions() {
 function Hero() {
     return <section className="hero content-column" aria-labelledby="hero-title">
         <div className="hero-main">
-            <Badge><span className="status-dot"/>{content.status}</Badge>
+            {/*<Badge><span className="status-dot"/>{content.status}</Badge>*/}
             <h1 id="hero-title">{content.h1}</h1>
             <p className="hero-subtitle">{content.subtitle}</p>
             {content.portrait && <img className="hero-portrait" src={`${import.meta.env.BASE_URL}${content.portrait}`}
