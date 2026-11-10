@@ -255,7 +255,7 @@ function Contact() {
 
 function Footer() {
     return <footer className="site-footer">
-        <div className="container footer-inner"><span>© {new Date().getFullYear()} Ivan Chiniakin</span><span>Last updated: 7 November 2026</span><a
+        <div className="container footer-inner"><span>© {new Date().getFullYear()} Ivan Chiniakin</span><span>Last updated: 10 November 2026</span><a
             href="#main">Back to top ↑</a></div>
     </footer>;
 }
